@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DCACAAEB-6167-4F91-93ED-382435728E0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbitalGuardian.Domain", "src\OrbitalGuardian.Domain\OrbitalGuardian.Domain.csproj", "{4A3267F9-8431-45D0-91EC-5455463FF693}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbitalGuardian.Application", "src\OrbitalGuardian.Application\OrbitalGuardian.Application.csproj", "{84D911C4-4B3E-45ED-8EF8-1B36B118B621}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbitalGuardian.Infrastructure", "src\OrbitalGuardian.Infrastructure\OrbitalGuardian.Infrastructure.csproj", "{34789A11-3646-4794-BD68-E440594591D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbitalGuardian.API", "src\OrbitalGuardian.API\OrbitalGuardian.API.csproj", "{FB2BBAB6-1FAA-40E7-9376-48E3B05A57D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{57E51400-FE80-43B2-AE73-6FD5DA8A32E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbitalGuardian.Tests", "tests\OrbitalGuardian.Tests\OrbitalGuardian.Tests.csproj", "{0A68A373-85A5-4B2F-A695-86BA750F0602}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A3267F9-8431-45D0-91EC-5455463FF693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A3267F9-8431-45D0-91EC-5455463FF693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A3267F9-8431-45D0-91EC-5455463FF693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A3267F9-8431-45D0-91EC-5455463FF693}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84D911C4-4B3E-45ED-8EF8-1B36B118B621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84D911C4-4B3E-45ED-8EF8-1B36B118B621}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84D911C4-4B3E-45ED-8EF8-1B36B118B621}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84D911C4-4B3E-45ED-8EF8-1B36B118B621}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34789A11-3646-4794-BD68-E440594591D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34789A11-3646-4794-BD68-E440594591D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34789A11-3646-4794-BD68-E440594591D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34789A11-3646-4794-BD68-E440594591D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB2BBAB6-1FAA-40E7-9376-48E3B05A57D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB2BBAB6-1FAA-40E7-9376-48E3B05A57D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB2BBAB6-1FAA-40E7-9376-48E3B05A57D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB2BBAB6-1FAA-40E7-9376-48E3B05A57D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A68A373-85A5-4B2F-A695-86BA750F0602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A68A373-85A5-4B2F-A695-86BA750F0602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A68A373-85A5-4B2F-A695-86BA750F0602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A68A373-85A5-4B2F-A695-86BA750F0602}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4A3267F9-8431-45D0-91EC-5455463FF693} = {DCACAAEB-6167-4F91-93ED-382435728E0C}
+		{84D911C4-4B3E-45ED-8EF8-1B36B118B621} = {DCACAAEB-6167-4F91-93ED-382435728E0C}
+		{34789A11-3646-4794-BD68-E440594591D6} = {DCACAAEB-6167-4F91-93ED-382435728E0C}
+		{FB2BBAB6-1FAA-40E7-9376-48E3B05A57D4} = {DCACAAEB-6167-4F91-93ED-382435728E0C}
+		{0A68A373-85A5-4B2F-A695-86BA750F0602} = {57E51400-FE80-43B2-AE73-6FD5DA8A32E9}
+	EndGlobalSection
+EndGlobal
