@@ -9,4 +9,5 @@ public interface IConjunctionEventRepository
     Task<ConjunctionEventCollection> GetActiveAsync(CancellationToken ct);
     Task AddAsync(ConjunctionEvent conjunctionEvent, CancellationToken ct);
     Task UpdateAsync(ConjunctionEvent conjunctionEvent, CancellationToken ct);
+    Task DeleteAsync(Guid id, CancellationToken ct);
 }

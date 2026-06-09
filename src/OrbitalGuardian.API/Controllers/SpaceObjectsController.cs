@@ -92,4 +92,18 @@ public class SpaceObjectsController : ControllerBase
         var result = await _commands.DispatchAsync(new ImportTleDataCommand(), ct);
         return Ok(result);
     }
+
+    /// <summary>Deactivates a space object (soft delete). Requires Admin or Operator role.</summary>
+    /// <param name="id">Space object ID.</param>
+    /// <response code="204">Space object deactivated successfully.</response>
+    /// <response code="404">Space object not found.</response>
+    [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin,Operator")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    {
+        await _commands.DispatchAsync(new DeleteSpaceObjectCommand(id), ct);
+        return NoContent();
+    }
 }

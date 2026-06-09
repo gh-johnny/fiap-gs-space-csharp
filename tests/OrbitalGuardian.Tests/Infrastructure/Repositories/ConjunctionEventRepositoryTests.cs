@@ -43,5 +43,24 @@ public class ConjunctionEventRepositoryTests : IDisposable
         result.First().Status.Should().Be(ConjunctionStatus.Active);
     }
 
+    [Fact]
+    public async Task DeleteAsync_ExistingEvent_RemovesFromDatabase()
+    {
+        var conjunction = MakeActive();
+        await _repo.AddAsync(conjunction, CancellationToken.None);
+
+        await _repo.DeleteAsync(conjunction.Id, CancellationToken.None);
+
+        var found = await _repo.GetByIdAsync(conjunction.Id, CancellationToken.None);
+        found.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task DeleteAsync_NonExistentId_DoesNotThrow()
+    {
+        var act = async () => await _repo.DeleteAsync(Guid.NewGuid(), CancellationToken.None);
+        await act.Should().NotThrowAsync();
+    }
+
     public void Dispose() => _context.Dispose();
 }

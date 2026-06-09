@@ -53,4 +53,18 @@ public class ConjunctionsController : ControllerBase
         var result = await _queries.DispatchAsync(new GetConjunctionByIdQuery(id), ct);
         return Ok(result);
     }
+
+    /// <summary>Permanently removes a conjunction event. Requires Admin role.</summary>
+    /// <param name="id">Conjunction event ID.</param>
+    /// <response code="204">Conjunction event deleted successfully.</response>
+    /// <response code="404">Conjunction event not found.</response>
+    [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    {
+        await _commands.DispatchAsync(new DeleteConjunctionEventCommand(id), ct);
+        return NoContent();
+    }
 }

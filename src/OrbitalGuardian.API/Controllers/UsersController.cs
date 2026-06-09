@@ -44,4 +44,18 @@ public class UsersController : ControllerBase
         var result = await _commands.DispatchAsync(new UpdateUserCommand(id, request.FullName), ct);
         return Ok(result);
     }
+
+    /// <summary>Deactivates a user (soft delete). Requires Admin role.</summary>
+    /// <param name="id">User ID.</param>
+    /// <response code="204">User deactivated successfully.</response>
+    /// <response code="404">User not found.</response>
+    [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    {
+        await _commands.DispatchAsync(new DeleteUserCommand(id), ct);
+        return NoContent();
+    }
 }

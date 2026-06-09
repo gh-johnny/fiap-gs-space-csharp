@@ -57,4 +57,15 @@ public class ConjunctionEventRepository : IConjunctionEventRepository
             _context.ConjunctionEvents.Update(conjunctionEvent);
             await _context.SaveChangesAsync(ct);
         }, ct);
+
+    public async Task DeleteAsync(Guid id, CancellationToken ct) =>
+        await _policy.ExecuteAsync(async ct =>
+        {
+            var entity = await _context.ConjunctionEvents.FirstOrDefaultAsync(x => x.Id == id, ct);
+            if (entity is not null)
+            {
+                _context.ConjunctionEvents.Remove(entity);
+                await _context.SaveChangesAsync(ct);
+            }
+        }, ct);
 }
