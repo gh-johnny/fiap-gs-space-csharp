@@ -21,14 +21,14 @@ public class SpaceObjectRepository : ISpaceObjectRepository
 
     public async Task<SpaceObject?> GetByIdAsync(Guid id, CancellationToken ct) =>
         await _policy.ExecuteAsync(ct => _context.SpaceObjects
-            .Include(x => (IEnumerable<TelemetryReading>)x.TelemetryReadings)
+            .Include("_telemetryReadings")
             .FirstOrDefaultAsync(x => x.Id == id, ct), ct);
 
     public async Task<SpaceObjectCollection> GetAllAsync(CancellationToken ct)
     {
         var results = await _policy.ExecuteAsync(ct =>
             _context.SpaceObjects
-                .Include(x => (IEnumerable<TelemetryReading>)x.TelemetryReadings)
+                .Include("_telemetryReadings")
                 .ToListAsync(ct), ct);
         return new SpaceObjectCollection(results);
     }

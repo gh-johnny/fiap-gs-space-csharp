@@ -46,13 +46,13 @@ namespace OrbitalGuardian.Infrastructure.Migrations
                     OE_ArgumentOfPerigee = table.Column<double>(type: "REAL", nullable: false),
                     OE_MeanAnomaly = table.Column<double>(type: "REAL", nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Agency = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    CrewCapacity = table.Column<int>(type: "INTEGER", nullable: false),
-                    EstimatedSizeM = table.Column<double>(type: "REAL", nullable: false),
-                    MassKg = table.Column<double>(type: "REAL", nullable: false),
-                    MissionType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Operator = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    OriginObject = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false)
+                    Operator = table.Column<string>(type: "TEXT", nullable: true),
+                    MissionType = table.Column<string>(type: "TEXT", nullable: true),
+                    MassKg = table.Column<double>(type: "REAL", nullable: true),
+                    OriginObject = table.Column<string>(type: "TEXT", nullable: true),
+                    EstimatedSizeM = table.Column<double>(type: "REAL", nullable: true),
+                    CrewCapacity = table.Column<int>(type: "INTEGER", nullable: true),
+                    Agency = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

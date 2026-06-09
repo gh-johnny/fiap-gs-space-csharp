@@ -35,21 +35,10 @@ public class SpaceObjectConfiguration : IEntityTypeConfiguration<SpaceObject>
             oe.Property(p => p.MeanAnomaly).HasColumnName("OE_MeanAnomaly");
         });
 
-        // Satellite columns
-        builder.Property<string>("Operator").HasColumnName("Operator").HasMaxLength(200);
-        builder.Property<string>("MissionType").HasColumnName("MissionType").HasMaxLength(100);
-        builder.Property<double>("MassKg").HasColumnName("MassKg");
 
-        // SpaceDebris columns
-        builder.Property<string>("OriginObject").HasColumnName("OriginObject").HasMaxLength(200);
-        builder.Property<double>("EstimatedSizeM").HasColumnName("EstimatedSizeM");
-
-        // SpaceStation columns
-        builder.Property<int>("CrewCapacity").HasColumnName("CrewCapacity");
-        builder.Property<string>("Agency").HasColumnName("Agency").HasMaxLength(200);
-
-        // Telemetry relationship via shadow navigation
-        builder.HasMany(x => (IEnumerable<TelemetryReading>)x.TelemetryReadings)
+        // Ignore computed collection property — EF Core uses the backing field directly
+        builder.Ignore(x => x.TelemetryReadings);
+        builder.HasMany<TelemetryReading>("_telemetryReadings")
                .WithOne()
                .HasForeignKey(t => t.SpaceObjectId)
                .OnDelete(DeleteBehavior.Cascade);

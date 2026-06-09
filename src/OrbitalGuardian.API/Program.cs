@@ -77,7 +77,7 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
 
 // ── Gateway ───────────────────────────────────────────────────────────────────
-if (configuration["Gateway:UseMock"] == "true")
+if (bool.TryParse(configuration["Gateway:UseMock"], out var useMock) && useMock)
     builder.Services.AddSingleton<ITleDataGateway, MockTleDataGateway>();
 else
     builder.Services.AddScoped<ITleDataGateway, SpaceTrackTleGateway>();
@@ -180,9 +180,12 @@ app.UseCors("AllowAll");
 app.UseRequestTimeouts();
 app.MapControllers();
 
-// ── Seed ──────────────────────────────────────────────────────────────────────
+// ── Migrate + Seed ────────────────────────────────────────────────────────────
 using (var scope = app.Services.CreateScope())
 {
+    var db = scope.ServiceProvider.GetRequiredService<OrbitalGuardianDbContext>();
+    await db.Database.MigrateAsync();
+
     var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
     await seeder.SeedAsync();
 }

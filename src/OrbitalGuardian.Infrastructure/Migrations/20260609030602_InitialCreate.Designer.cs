@@ -11,7 +11,7 @@ using OrbitalGuardian.Infrastructure.Persistence;
 namespace OrbitalGuardian.Infrastructure.Migrations
 {
     [DbContext(typeof(OrbitalGuardianDbContext))]
-    [Migration("20260609024249_InitialCreate")]
+    [Migration("20260609030602_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -82,35 +82,11 @@ namespace OrbitalGuardian.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Agency")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Agency");
-
-                    b.Property<int>("CrewCapacity")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("CrewCapacity");
-
-                    b.Property<double>("EstimatedSizeM")
-                        .HasColumnType("REAL")
-                        .HasColumnName("EstimatedSizeM");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LaunchDate")
                         .HasColumnType("TEXT");
-
-                    b.Property<double>("MassKg")
-                        .HasColumnType("REAL")
-                        .HasColumnName("MassKg");
-
-                    b.Property<string>("MissionType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("MissionType");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -121,18 +97,6 @@ namespace OrbitalGuardian.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
-
-                    b.Property<string>("Operator")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Operator");
-
-                    b.Property<string>("OriginObject")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("OriginObject");
 
                     b.Property<int>("Type")
                         .HasColumnType("INTEGER");
@@ -206,6 +170,17 @@ namespace OrbitalGuardian.Infrastructure.Migrations
                 {
                     b.HasBaseType("OrbitalGuardian.Domain.Aggregates.SpaceObjects.SpaceObject");
 
+                    b.Property<double>("MassKg")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("MissionType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Operator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasDiscriminator().HasValue(0);
                 });
 
@@ -213,12 +188,26 @@ namespace OrbitalGuardian.Infrastructure.Migrations
                 {
                     b.HasBaseType("OrbitalGuardian.Domain.Aggregates.SpaceObjects.SpaceObject");
 
+                    b.Property<double>("EstimatedSizeM")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("OriginObject")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("OrbitalGuardian.Domain.Aggregates.SpaceObjects.SpaceStation", b =>
                 {
                     b.HasBaseType("OrbitalGuardian.Domain.Aggregates.SpaceObjects.SpaceObject");
+
+                    b.Property<string>("Agency")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CrewCapacity")
+                        .HasColumnType("INTEGER");
 
                     b.HasDiscriminator().HasValue(2);
                 });
@@ -325,7 +314,7 @@ namespace OrbitalGuardian.Infrastructure.Migrations
             modelBuilder.Entity("OrbitalGuardian.Domain.Aggregates.SpaceObjects.TelemetryReading", b =>
                 {
                     b.HasOne("OrbitalGuardian.Domain.Aggregates.SpaceObjects.SpaceObject", null)
-                        .WithMany("TelemetryReadings")
+                        .WithMany("_telemetryReadings")
                         .HasForeignKey("SpaceObjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -414,7 +403,7 @@ namespace OrbitalGuardian.Infrastructure.Migrations
 
             modelBuilder.Entity("OrbitalGuardian.Domain.Aggregates.SpaceObjects.SpaceObject", b =>
                 {
-                    b.Navigation("TelemetryReadings");
+                    b.Navigation("_telemetryReadings");
                 });
 #pragma warning restore 612, 618
         }
