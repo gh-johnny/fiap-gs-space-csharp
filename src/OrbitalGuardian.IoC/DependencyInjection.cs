@@ -1,8 +1,9 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using OrbitalGuardian.API.Settings;
 using OrbitalGuardian.Application.Commands;
 using OrbitalGuardian.Application.DTOs;
 using OrbitalGuardian.Application.EventHandlers;
@@ -16,7 +17,7 @@ using OrbitalGuardian.Infrastructure.Gateways;
 using OrbitalGuardian.Infrastructure.Persistence;
 using OrbitalGuardian.Infrastructure.Repositories;
 
-namespace OrbitalGuardian.API.IoC;
+namespace OrbitalGuardian.IoC;
 
 public static class DependencyInjection
 {

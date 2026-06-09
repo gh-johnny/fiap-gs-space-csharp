@@ -1,8 +1,8 @@
 using OrbitalGuardian.API.Extensions;
-using OrbitalGuardian.API.IoC;
-using OrbitalGuardian.API.Middleware;
 using OrbitalGuardian.API.Swagger;
+using OrbitalGuardian.API.Middleware;
 using OrbitalGuardian.Domain.Shared;
+using OrbitalGuardian.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 

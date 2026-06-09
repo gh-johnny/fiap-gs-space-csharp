@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.*" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.25" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OrbitalGuardian.Application\OrbitalGuardian.Application.csproj" />
     <ProjectReference Include="..\OrbitalGuardian.Infrastructure\OrbitalGuardian.Infrastructure.csproj" />
+    <ProjectReference Include="..\OrbitalGuardian.IoC\OrbitalGuardian.IoC.csproj" />
   </ItemGroup>
 
 </Project>

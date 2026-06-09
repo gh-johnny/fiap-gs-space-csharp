@@ -1,4 +1,4 @@
-namespace OrbitalGuardian.API.Settings;
+namespace OrbitalGuardian.IoC;
 
 public class OrbitalGuardianSettings
 {

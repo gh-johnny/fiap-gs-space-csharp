@@ -248,7 +248,10 @@ O projeto segue os princípios da **Clean Architecture** de Robert C. Martin, co
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                        API Layer                             │
-│          (Controllers, Middleware, Swagger, DTOs)            │
+│          (Controllers, Middleware, Swagger, Program)         │
+├──────────────────────────────────────────────────────────────┤
+│                        IoC Layer                             │
+│       (DependencyInjection — registro de todos os serviços)  │
 ├──────────────────────────────────────────────────────────────┤
 │                    Application Layer                         │
 │      (Commands, Queries, Event Handlers, Interfaces)         │
@@ -261,7 +264,7 @@ O projeto segue os princípios da **Clean Architecture** de Robert C. Martin, co
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**Regra de dependência**: o Domain não conhece nada além de si mesmo. A Application conhece apenas o Domain. A Infrastructure implementa as interfaces definidas na Application. A API orquestra tudo via injeção de dependência.
+**Regra de dependência**: o Domain não conhece nada além de si mesmo. A Application conhece apenas o Domain. A Infrastructure implementa as interfaces definidas na Application. O IoC conhece Application e Infrastructure e centraliza todo o registro de serviços. A API referencia o IoC e não contém nenhum `AddScoped` ou `AddSingleton`.
 
 ### 5.2 Camadas em Detalhe
 
@@ -286,10 +289,15 @@ O projeto segue os princípios da **Clean Architecture** de Robert C. Martin, co
 - **Dispatchers**: `CommandDispatcher`, `QueryDispatcher`, `DomainEventDispatcher` — resolvem handlers via reflexão (sem registro explícito por handler)
 - **Gateways**: `SpaceTrackTleGateway` (produção), `MockTleDataGateway` (desenvolvimento/testes)
 
-**API Layer** — entrada da aplicação. Contém:
+**IoC Layer** (`OrbitalGuardian.IoC`) — camada dedicada ao registro de dependências. Contém:
+- **DependencyInjection**: métodos de extensão `IServiceCollection` que registram todos os serviços (repositórios, handlers, dispatchers, autenticação, gateways, CORS, etc.)
+- **OrbitalGuardianSettings**: DTO de configurações (Polly retries, timeouts) — pertence ao IoC pois só é usada durante o boot
+
+**API Layer** — entrada da aplicação. Não contém nenhum registro de DI. Contém:
 - **Controllers**: recebem requisições HTTP, validam, delegam para dispatchers
 - **Middleware**: `GlobalExceptionHandlingMiddleware` — captura exceções de domínio e mapeia para status HTTP semânticos
 - **Swagger**: configuração com JWT, exemplos pré-preenchidos com dados reais e documentação em PT-BR
+- **Extensions**: `DatabaseExtensions` — migrate + seed como extensão de `WebApplication`
 
 ### 5.3 CQRS com Dispatchers por Reflexão
 
@@ -434,6 +442,10 @@ As políticas são combinadas com `Policy.WrapAsync(timeout, retry)`, garantindo
 orbital-guardian/
 │
 ├── src/
+│   ├── OrbitalGuardian.IoC/                  # Camada de IoC — registro de dependências
+│   │   ├── DependencyInjection.cs            # Todos os AddScoped/AddSingleton/AddTransient
+│   │   └── OrbitalGuardianSettings.cs        # DTO de configuração (Polly retries, timeouts)
+│   │
 │   ├── OrbitalGuardian.API/                  # Camada de apresentação
 │   │   ├── Controllers/                      # 5 controllers REST
 │   │   │   ├── AlertsController.cs
@@ -441,8 +453,6 @@ orbital-guardian/
 │   │   │   ├── ConjunctionsController.cs
 │   │   │   ├── SpaceObjectsController.cs
 │   │   │   └── UsersController.cs
-│   │   ├── IoC/
-│   │   │   └── DependencyInjection.cs        # Registro de todos os serviços (IServiceCollection)
 │   │   ├── Swagger/
 │   │   │   ├── SwaggerBodyExampleAttribute.cs  # Atributo de exemplo pré-preenchido
 │   │   │   ├── SwaggerBodyExampleFilter.cs     # IOperationFilter que injeta o exemplo
@@ -451,8 +461,6 @@ orbital-guardian/
 │   │   │   └── DatabaseExtensions.cs           # MigrateAndSeedAsync (WebApplication extension)
 │   │   ├── Middleware/
 │   │   │   └── GlobalExceptionHandlingMiddleware.cs
-│   │   ├── Settings/
-│   │   │   └── OrbitalGuardianSettings.cs
 │   │   ├── Program.cs                        # Entry point limpo — apenas chamadas de extensão
 │   │   └── appsettings.json
 │   │
