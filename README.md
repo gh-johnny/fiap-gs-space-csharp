@@ -441,14 +441,19 @@ orbital-guardian/
 │   │   │   ├── ConjunctionsController.cs
 │   │   │   ├── SpaceObjectsController.cs
 │   │   │   └── UsersController.cs
-│   │   ├── Middleware/
-│   │   │   └── GlobalExceptionHandlingMiddleware.cs
+│   │   ├── IoC/
+│   │   │   └── DependencyInjection.cs        # Registro de todos os serviços (IServiceCollection)
 │   │   ├── Swagger/
 │   │   │   ├── SwaggerBodyExampleAttribute.cs  # Atributo de exemplo pré-preenchido
-│   │   │   └── SwaggerBodyExampleFilter.cs     # IOperationFilter que injeta o exemplo
+│   │   │   ├── SwaggerBodyExampleFilter.cs     # IOperationFilter que injeta o exemplo
+│   │   │   └── SwaggerConfiguration.cs         # AddSwaggerGen + JWT security definition
+│   │   ├── Extensions/
+│   │   │   └── DatabaseExtensions.cs           # MigrateAndSeedAsync (WebApplication extension)
+│   │   ├── Middleware/
+│   │   │   └── GlobalExceptionHandlingMiddleware.cs
 │   │   ├── Settings/
 │   │   │   └── OrbitalGuardianSettings.cs
-│   │   ├── Program.cs                        # Composição do DI container
+│   │   ├── Program.cs                        # Entry point limpo — apenas chamadas de extensão
 │   │   └── appsettings.json
 │   │
 │   ├── OrbitalGuardian.Domain/               # Núcleo — zero dependências externas
