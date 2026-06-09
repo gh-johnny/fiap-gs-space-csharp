@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrbitalGuardian.API.Swagger;
 using OrbitalGuardian.Application.Commands;
 using OrbitalGuardian.Application.DTOs;
 using OrbitalGuardian.Application.Interfaces;
@@ -26,6 +27,22 @@ public class SpaceObjectsController : ControllerBase
     /// <response code="400">Dados inválidos na requisição.</response>
     /// <response code="401">Token de autenticação ausente ou inválido.</response>
     /// <response code="403">Usuário não possui permissão para acessar este recurso.</response>
+    [SwaggerBodyExample("""
+        {
+          "name": "STARLINK-1234",
+          "noradId": "48274",
+          "launchDate": "2021-09-14T00:00:00Z",
+          "operator": "SpaceX",
+          "missionType": "Communications",
+          "massKg": 260.0,
+          "inclination": 53.05,
+          "eccentricity": 0.0001347,
+          "meanMotion": 15.06457742,
+          "rightAscension": 74.5412,
+          "argumentOfPerigee": 89.3256,
+          "meanAnomaly": 270.6134
+        }
+        """)]
     [HttpPost("satellite")]
     [Authorize(Roles = "Admin,Operator")]
     [ProducesResponseType(typeof(SpaceObjectResponse), StatusCodes.Status201Created)]
@@ -47,6 +64,21 @@ public class SpaceObjectsController : ControllerBase
     /// <response code="400">Dados inválidos na requisição.</response>
     /// <response code="401">Token de autenticação ausente ou inválido.</response>
     /// <response code="403">Usuário não possui permissão para acessar este recurso.</response>
+    [SwaggerBodyExample("""
+        {
+          "name": "COSMOS 954 DEB",
+          "noradId": "10731",
+          "launchDate": "1977-09-18T00:00:00Z",
+          "originObject": "COSMOS 954",
+          "estimatedSizeM": 0.15,
+          "inclination": 65.5821,
+          "eccentricity": 0.0021453,
+          "meanMotion": 14.72138651,
+          "rightAscension": 104.2345,
+          "argumentOfPerigee": 45.8912,
+          "meanAnomaly": 315.4321
+        }
+        """)]
     [HttpPost("debris")]
     [Authorize(Roles = "Admin,Operator")]
     [ProducesResponseType(typeof(SpaceObjectResponse), StatusCodes.Status201Created)]
@@ -68,6 +100,21 @@ public class SpaceObjectsController : ControllerBase
     /// <response code="400">Dados inválidos na requisição.</response>
     /// <response code="401">Token de autenticação ausente ou inválido.</response>
     /// <response code="403">Usuário não possui permissão para acessar este recurso.</response>
+    [SwaggerBodyExample("""
+        {
+          "name": "ISS (ZARYA)",
+          "noradId": "25544",
+          "launchDate": "1998-11-20T00:00:00Z",
+          "agency": "ISS Program",
+          "crewCapacity": 7,
+          "inclination": 51.6412,
+          "eccentricity": 0.0001987,
+          "meanMotion": 15.49356762,
+          "rightAscension": 222.3456,
+          "argumentOfPerigee": 56.789,
+          "meanAnomaly": 304.1234
+        }
+        """)]
     [HttpPost("station")]
     [Authorize(Roles = "Admin,Operator")]
     [ProducesResponseType(typeof(SpaceObjectResponse), StatusCodes.Status201Created)]
@@ -124,6 +171,18 @@ public class SpaceObjectsController : ControllerBase
     /// <response code="401">Token de autenticação ausente ou inválido.</response>
     /// <response code="403">Usuário não possui permissão para acessar este recurso.</response>
     /// <response code="404">Objeto espacial não encontrado.</response>
+    [SwaggerBodyExample("""
+        {
+          "x": 6778.0,
+          "y": 1234.5,
+          "z": 3456.7,
+          "vx": -1.23,
+          "vy": 7.71,
+          "vz": 0.45,
+          "uncertaintyKm": 0.05,
+          "timestamp": "2026-06-09T13:00:00Z"
+        }
+        """)]
     [HttpPost("{id:guid}/telemetry")]
     [Authorize(Roles = "Admin,Operator")]
     [ProducesResponseType(typeof(TelemetryReadingResponse), StatusCodes.Status201Created)]

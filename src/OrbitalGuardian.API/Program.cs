@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OrbitalGuardian.API.Middleware;
+using OrbitalGuardian.API.Swagger;
 using OrbitalGuardian.API.Settings;
 using OrbitalGuardian.Application.Commands;
 using OrbitalGuardian.Application.EventHandlers;
@@ -138,6 +139,8 @@ builder.Services.AddSwaggerGen(options =>
 
     if (System.IO.File.Exists(xmlPath))
         options.IncludeXmlComments(xmlPath);
+
+    options.OperationFilter<SwaggerBodyExampleFilter>();
 
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

@@ -1,0 +1,449 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "Orbital Guardian API",
+    "description": "Coleção completa da Orbital Guardian API. Execute os requests na ordem dos folders — o login salva o token automaticamente e cada POST salva o ID da resposta nas variáveis da coleção.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{token}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl",        "value": "http://localhost:8080", "type": "string" },
+    { "key": "token",          "value": "", "type": "string" },
+    { "key": "operatorId",     "value": "", "type": "string" },
+    { "key": "satelliteId",    "value": "", "type": "string" },
+    { "key": "debrisId",       "value": "", "type": "string" },
+    { "key": "stationId",      "value": "", "type": "string" },
+    { "key": "conjunctionId",  "value": "", "type": "string" },
+    { "key": "alertId",        "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "1 — Auth",
+      "item": [
+        {
+          "name": "01 · Login (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.token) {",
+                  "    pm.collectionVariables.set('token', json.token);",
+                  "    console.log('Token salvo:', json.token.substring(0, 30) + '...');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"email\": \"admin@orbitalguardian.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "02 · Register (Operator)",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"email\": \"operator@orbitalguardian.com\",\n  \"password\": \"Operator@123\",\n  \"fullName\": \"Carlos Operador\",\n  \"role\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 — Users",
+      "item": [
+        {
+          "name": "03 · GET All Users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "var op = json.find(function(u) { return u.email === 'operator@orbitalguardian.com'; });",
+                  "if (op) {",
+                  "    pm.collectionVariables.set('operatorId', op.id);",
+                  "    console.log('operatorId salvo:', op.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
+            }
+          }
+        },
+        {
+          "name": "04 · GET User by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{operatorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{operatorId}}"]
+            }
+          }
+        },
+        {
+          "name": "05 · PUT Update User",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"fullName\": \"Carlos Silva\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{operatorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{operatorId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 — Space Objects",
+      "item": [
+        {
+          "name": "06 · POST Create Satellite",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.id) {",
+                  "    pm.collectionVariables.set('satelliteId', json.id);",
+                  "    console.log('satelliteId salvo:', json.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"name\": \"STARLINK-1234\",\n  \"noradId\": \"48274\",\n  \"launchDate\": \"2021-09-14T00:00:00Z\",\n  \"operator\": \"SpaceX\",\n  \"missionType\": \"Communications\",\n  \"massKg\": 260.0,\n  \"inclination\": 53.05,\n  \"eccentricity\": 0.0001347,\n  \"meanMotion\": 15.06457742,\n  \"rightAscension\": 74.5412,\n  \"argumentOfPerigee\": 89.3256,\n  \"meanAnomaly\": 270.6134\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/space-objects/satellite",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "space-objects", "satellite"]
+            }
+          }
+        },
+        {
+          "name": "07 · POST Create Debris",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.id) {",
+                  "    pm.collectionVariables.set('debrisId', json.id);",
+                  "    console.log('debrisId salvo:', json.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"name\": \"COSMOS 954 DEB\",\n  \"noradId\": \"10731\",\n  \"launchDate\": \"1977-09-18T00:00:00Z\",\n  \"originObject\": \"COSMOS 954\",\n  \"estimatedSizeM\": 0.15,\n  \"inclination\": 65.5821,\n  \"eccentricity\": 0.0021453,\n  \"meanMotion\": 14.72138651,\n  \"rightAscension\": 104.2345,\n  \"argumentOfPerigee\": 45.8912,\n  \"meanAnomaly\": 315.4321\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/space-objects/debris",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "space-objects", "debris"]
+            }
+          }
+        },
+        {
+          "name": "08 · POST Create Station",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.id) {",
+                  "    pm.collectionVariables.set('stationId', json.id);",
+                  "    console.log('stationId salvo:', json.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"name\": \"ISS (ZARYA)\",\n  \"noradId\": \"25544\",\n  \"launchDate\": \"1998-11-20T00:00:00Z\",\n  \"agency\": \"ISS Program\",\n  \"crewCapacity\": 7,\n  \"inclination\": 51.6412,\n  \"eccentricity\": 0.0001987,\n  \"meanMotion\": 15.49356762,\n  \"rightAscension\": 222.3456,\n  \"argumentOfPerigee\": 56.789,\n  \"meanAnomaly\": 304.1234\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/space-objects/station",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "space-objects", "station"]
+            }
+          }
+        },
+        {
+          "name": "09 · POST Import TLE",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/space-objects/import-tle",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "space-objects", "import-tle"]
+            }
+          }
+        },
+        {
+          "name": "10 · GET All Space Objects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/space-objects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "space-objects"]
+            }
+          }
+        },
+        {
+          "name": "11 · GET Space Object by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/space-objects/{{satelliteId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "space-objects", "{{satelliteId}}"]
+            }
+          }
+        },
+        {
+          "name": "12 · POST Add Telemetry",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"x\": 6778.0,\n  \"y\": 1234.5,\n  \"z\": 3456.7,\n  \"vx\": -1.23,\n  \"vy\": 7.71,\n  \"vz\": 0.45,\n  \"uncertaintyKm\": 0.05,\n  \"timestamp\": \"2026-06-09T13:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/space-objects/{{satelliteId}}/telemetry",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "space-objects", "{{satelliteId}}", "telemetry"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 — Conjunctions",
+      "item": [
+        {
+          "name": "13 · POST Detect Conjunction",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.id) {",
+                  "    pm.collectionVariables.set('conjunctionId', json.id);",
+                  "    console.log('conjunctionId salvo:', json.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"primaryObjectId\": \"{{satelliteId}}\",\n  \"secondaryObjectId\": \"{{debrisId}}\",\n  \"predictedTcaUtc\": \"2026-06-10T18:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/conjunctions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "conjunctions"]
+            }
+          }
+        },
+        {
+          "name": "14 · GET All Conjunctions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/conjunctions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "conjunctions"]
+            }
+          }
+        },
+        {
+          "name": "15 · GET Active Conjunctions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/conjunctions/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "conjunctions", "active"]
+            }
+          }
+        },
+        {
+          "name": "16 · GET Conjunction by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/conjunctions/{{conjunctionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "conjunctions", "{{conjunctionId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5 — Alerts",
+      "item": [
+        {
+          "name": "17 · GET All Alerts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json && json.length > 0) {",
+                  "    pm.collectionVariables.set('alertId', json[0].id);",
+                  "    console.log('alertId salvo:', json[0].id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "alerts"]
+            }
+          }
+        },
+        {
+          "name": "18 · PATCH Acknowledge Alert",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts/{{alertId}}/acknowledge",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "alerts", "{{alertId}}", "acknowledge"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6 — Deletions",
+      "item": [
+        {
+          "name": "19 · DELETE Conjunction",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/conjunctions/{{conjunctionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "conjunctions", "{{conjunctionId}}"]
+            }
+          }
+        },
+        {
+          "name": "20 · DELETE Space Object (Station)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/space-objects/{{stationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "space-objects", "{{stationId}}"]
+            }
+          }
+        },
+        {
+          "name": "21 · DELETE User (Operator)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{operatorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{operatorId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

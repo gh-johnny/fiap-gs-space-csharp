@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrbitalGuardian.API.Swagger;
 using OrbitalGuardian.Application.Commands;
 using OrbitalGuardian.Application.DTOs;
 using OrbitalGuardian.Application.Interfaces;
@@ -42,6 +43,7 @@ public class AlertsController : ControllerBase
     /// <response code="401">Token de autenticação ausente ou inválido.</response>
     /// <response code="403">Usuário não possui permissão para acessar este recurso.</response>
     /// <response code="404">Alerta não encontrado.</response>
+    [SwaggerBodyExample("{}")]
     [HttpPatch("{id:guid}/acknowledge")]
     [Authorize(Roles = "Admin,Operator")]
     [ProducesResponseType(typeof(AlertResponse), StatusCodes.Status200OK)]

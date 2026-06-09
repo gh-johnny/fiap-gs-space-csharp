@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrbitalGuardian.API.Swagger;
 using OrbitalGuardian.Application.Commands;
 using OrbitalGuardian.Application.DTOs;
 using OrbitalGuardian.Application.Interfaces;
@@ -26,6 +27,13 @@ public class ConjunctionsController : ControllerBase
     /// <response code="400">Dados inválidos na requisição.</response>
     /// <response code="401">Token de autenticação ausente ou inválido.</response>
     /// <response code="403">Usuário não possui permissão para acessar este recurso.</response>
+    [SwaggerBodyExample("""
+        {
+          "primaryObjectId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+          "secondaryObjectId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+          "predictedTcaUtc": "2026-06-10T18:00:00Z"
+        }
+        """)]
     [HttpPost]
     [Authorize(Roles = "Admin,Operator")]
     [ProducesResponseType(typeof(ConjunctionEventResponse), StatusCodes.Status201Created)]

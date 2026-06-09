@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrbitalGuardian.API.Swagger;
 using OrbitalGuardian.Application.Commands;
 using OrbitalGuardian.Application.DTOs;
 using OrbitalGuardian.Application.Interfaces;
@@ -61,6 +62,7 @@ public class UsersController : ControllerBase
     /// <response code="401">Token de autenticação ausente ou inválido.</response>
     /// <response code="403">Usuário não possui permissão para acessar este recurso.</response>
     /// <response code="404">Usuário não encontrado.</response>
+    [SwaggerBodyExample("""{ "fullName": "Carlos Silva" }""")]
     [HttpPut("{id:guid}")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]

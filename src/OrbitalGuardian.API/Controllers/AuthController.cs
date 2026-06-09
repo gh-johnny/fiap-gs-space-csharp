@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OrbitalGuardian.API.Swagger;
 using OrbitalGuardian.Application.Commands;
 using OrbitalGuardian.Application.DTOs;
 using OrbitalGuardian.Application.Interfaces;
@@ -17,6 +18,14 @@ public class AuthController : ControllerBase
     /// <response code="201">Usuário criado com sucesso.</response>
     /// <response code="400">Dados inválidos na requisição.</response>
     /// <response code="409">Já existe um usuário com o e-mail informado.</response>
+    [SwaggerBodyExample("""
+        {
+          "email": "operator@orbitalguardian.com",
+          "password": "Operator@123",
+          "fullName": "Carlos Operador",
+          "role": 1
+        }
+        """)]
     [HttpPost("register")]
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -32,6 +41,12 @@ public class AuthController : ControllerBase
     /// <response code="200">Autenticação realizada com sucesso. Retorna o token JWT.</response>
     /// <response code="400">Dados inválidos na requisição.</response>
     /// <response code="401">Credenciais incorretas.</response>
+    [SwaggerBodyExample("""
+        {
+          "email": "admin@orbitalguardian.com",
+          "password": "Admin@123"
+        }
+        """)]
     [HttpPost("login")]
     [ProducesResponseType(typeof(AuthTokenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
