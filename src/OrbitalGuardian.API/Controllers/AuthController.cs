@@ -13,7 +13,14 @@ public class AuthController : ControllerBase
 
     public AuthController(ICommandDispatcher commands) => _commands = commands;
 
+    /// <summary>Registra um novo usuário no sistema. Acesso público.</summary>
+    /// <response code="201">Usuário criado com sucesso.</response>
+    /// <response code="400">Dados inválidos na requisição.</response>
+    /// <response code="409">Já existe um usuário com o e-mail informado.</response>
     [HttpPost("register")]
+    [ProducesResponseType(typeof(UserResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<UserResponse>> Register([FromBody] RegisterRequest request, CancellationToken ct)
     {
         var result = await _commands.DispatchAsync(
@@ -21,7 +28,14 @@ public class AuthController : ControllerBase
         return CreatedAtAction(nameof(Register), result);
     }
 
+    /// <summary>Autentica um usuário e retorna um token JWT. Acesso público.</summary>
+    /// <response code="200">Autenticação realizada com sucesso. Retorna o token JWT.</response>
+    /// <response code="400">Dados inválidos na requisição.</response>
+    /// <response code="401">Credenciais incorretas.</response>
     [HttpPost("login")]
+    [ProducesResponseType(typeof(AuthTokenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<AuthTokenResponse>> Login([FromBody] LoginRequest request, CancellationToken ct)
     {
         var result = await _commands.DispatchAsync(
