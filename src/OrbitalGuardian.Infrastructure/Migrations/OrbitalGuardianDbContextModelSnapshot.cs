@@ -212,7 +212,7 @@ namespace OrbitalGuardian.Infrastructure.Migrations
             modelBuilder.Entity("OrbitalGuardian.Domain.Aggregates.Conjunctions.Alert", b =>
                 {
                     b.HasOne("OrbitalGuardian.Domain.Aggregates.Conjunctions.ConjunctionEvent", null)
-                        .WithMany("Alerts")
+                        .WithMany("_alerts")
                         .HasForeignKey("ConjunctionEventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -395,7 +395,7 @@ namespace OrbitalGuardian.Infrastructure.Migrations
 
             modelBuilder.Entity("OrbitalGuardian.Domain.Aggregates.Conjunctions.ConjunctionEvent", b =>
                 {
-                    b.Navigation("Alerts");
+                    b.Navigation("_alerts");
                 });
 
             modelBuilder.Entity("OrbitalGuardian.Domain.Aggregates.SpaceObjects.SpaceObject", b =>

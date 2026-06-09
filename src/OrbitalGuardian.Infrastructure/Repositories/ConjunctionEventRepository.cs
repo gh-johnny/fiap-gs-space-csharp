@@ -22,14 +22,14 @@ public class ConjunctionEventRepository : IConjunctionEventRepository
 
     public async Task<ConjunctionEvent?> GetByIdAsync(Guid id, CancellationToken ct) =>
         await _policy.ExecuteAsync(ct => _context.ConjunctionEvents
-            .Include(x => (IEnumerable<Alert>)x.Alerts)
+            .Include("_alerts")
             .FirstOrDefaultAsync(x => x.Id == id, ct), ct);
 
     public async Task<ConjunctionEventCollection> GetAllAsync(CancellationToken ct)
     {
         var results = await _policy.ExecuteAsync(ct =>
             _context.ConjunctionEvents
-                .Include(x => (IEnumerable<Alert>)x.Alerts)
+                .Include("_alerts")
                 .ToListAsync(ct), ct);
         return new ConjunctionEventCollection(results);
     }
@@ -38,7 +38,7 @@ public class ConjunctionEventRepository : IConjunctionEventRepository
     {
         var results = await _policy.ExecuteAsync(ct =>
             _context.ConjunctionEvents
-                .Include(x => (IEnumerable<Alert>)x.Alerts)
+                .Include("_alerts")
                 .Where(x => x.Status == ConjunctionStatus.Active)
                 .ToListAsync(ct), ct);
         return new ConjunctionEventCollection(results);

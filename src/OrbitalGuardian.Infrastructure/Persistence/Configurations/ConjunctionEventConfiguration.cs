@@ -27,7 +27,8 @@ public class ConjunctionEventConfiguration : IEntityTypeConfiguration<Conjunctio
             cp.Property(p => p.Value).HasColumnName("CollisionProbabilityValue");
         });
 
-        builder.HasMany(x => (IEnumerable<Alert>)x.Alerts)
+        builder.Ignore(x => x.Alerts);
+        builder.HasMany<Alert>("_alerts")
                .WithOne()
                .HasForeignKey(a => a.ConjunctionEventId)
                .OnDelete(DeleteBehavior.Cascade);
