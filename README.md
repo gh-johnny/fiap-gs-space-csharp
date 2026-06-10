@@ -4,6 +4,22 @@
 
 ---
 
+## Demo
+
+![Orbital Guardian — Swagger Showcase](docs/assets/video-showcase-swagger.gif)
+
+---
+
+## Integrantes
+
+| Nome | RM |
+|------|----|
+| João Marcelo Furtado Romero | RM555199 |
+| André Nakamatsu Rocha | RM555004 |
+| Matheus Rivera Montovaneli | RM555499 |
+
+---
+
 ## Sumário
 
 1. [Contexto da Global Solution](#1-contexto-da-global-solution)
@@ -919,6 +935,39 @@ make watch
 | `make run-no-container` | `dotnet run` | Executa localmente na porta 5299 |
 | `make watch` | `dotnet watch run` | Hot reload local na porta 5299 |
 
+<details>
+<summary><strong>Screenshots — terminal Makefile</strong></summary>
+
+**`make help`**
+
+![make help](docs/assets/screenshoot-terminal-makefile-help.png)
+
+**`make up`**
+
+![make up](docs/assets/screenshoot-terminal-makefile-up.png)
+
+**`make watch`**
+
+![make watch](docs/assets/screenshoot-terminal-makefile-watch.png)
+
+**`make logs`**
+
+![make logs](docs/assets/screenshoot-terminal-makefile-logs.png)
+
+**`make seed`**
+
+![make seed](docs/assets/screenshoot-terminal-makefile-seed.png)
+
+**`make test`**
+
+![make test](docs/assets/screenshoot-terminal-makefile-test.png)
+
+**`make down`**
+
+![make down](docs/assets/screenshoot-terminal-makefile-down.png)
+
+</details>
+
 ### 9.4 Credenciais Padrão
 
 O admin é criado automaticamente pelo `DatabaseSeeder` na inicialização da API:
@@ -938,6 +987,27 @@ O admin é criado automaticamente pelo `DatabaseSeeder` na inicialização da AP
 4. Clique no botão **Authorize** (cadeado) no topo da página
 5. Cole o token no campo `Value` → **Authorize**
 6. Todas as rotas autenticadas agora funcionam direto
+
+<details>
+<summary><strong>Screenshots — Swagger UI</strong></summary>
+
+![Swagger 1](docs/assets/screenshoot-swagger-1.png)
+
+![Swagger 2](docs/assets/screenshoot-swagger-2.png)
+
+![Swagger 3](docs/assets/screenshoot-swagger-3.png)
+
+![Swagger 4](docs/assets/screenshoot-swagger-4.png)
+
+![Swagger 5](docs/assets/screenshoot-swagger-5.png)
+
+![Swagger 6](docs/assets/screenshoot-swagger-6.png)
+
+![Swagger 7](docs/assets/screenshoot-swagger-7.png)
+
+![Swagger 8](docs/assets/screenshoot-swagger-8.png)
+
+</details>
 
 ---
 
@@ -1060,4 +1130,6 @@ Total tests: 89
 
 | Nome | RM |
 |------|----|
-| João Monteiro de Furtado Romero | RM559154 |
+| João Marcelo Furtado Romero | RM555199 |
+| André Nakamatsu Rocha | RM555004 |
+| Matheus Rivera Montovaneli | RM555499 |
