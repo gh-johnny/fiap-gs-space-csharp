@@ -6,6 +6,7 @@ COPY src/OrbitalGuardian.Domain/OrbitalGuardian.Domain.csproj src/OrbitalGuardia
 COPY src/OrbitalGuardian.Application/OrbitalGuardian.Application.csproj src/OrbitalGuardian.Application/
 COPY src/OrbitalGuardian.Infrastructure/OrbitalGuardian.Infrastructure.csproj src/OrbitalGuardian.Infrastructure/
 COPY src/OrbitalGuardian.API/OrbitalGuardian.API.csproj src/OrbitalGuardian.API/
+COPY src/OrbitalGuardian.IoC/OrbitalGuardian.IoC.csproj src/OrbitalGuardian.IoC/
 COPY tests/OrbitalGuardian.Tests/OrbitalGuardian.Tests.csproj tests/OrbitalGuardian.Tests/
 
 RUN dotnet restore
